@@ -20,6 +20,7 @@ class Post(models.Model):
     )
     title = models.CharField(max_length=250)
     slug = models.SlugField(max_length=250, unique_for_date='publish')
+    headImg = models.ImageField(upload_to='', verbose_name='图片', null=True)
     author = models.ForeignKey(User, related_name='blog_posts', on_delete=models.DO_NOTHING)
     body = RichTextUploadingField()
     publish = models.DateTimeField(default=timezone.now)

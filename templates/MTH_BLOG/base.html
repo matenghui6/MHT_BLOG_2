@@ -4,11 +4,12 @@
 <html>
 <head>
     <title>{% block title %}{% endblock %}</title>
-    <link href="{% static "css/blog.css" %}" rel="stylesheet">
+
     <link href="{% static "css/base.css" %}" rel="stylesheet">
     <link rel="stylesheet" href="{% static "css/bootstrap.css" %}">
     <script src="{% static "js/jquery-3.3.1.min.js" %}"></script>
     <script src="{% static "js/bootstrap.js" %}"></script>
+    <script src="{% static "js/bootstrap.min.js" %}"></script>
     <script src="{% static 'ckeditor/ckeditor/plugins/codesnippet/lib/highlight/highlight.pack.js' %}"></script>
     <link rel="stylesheet" href="{% static 'ckeditor/ckeditor/plugins/codesnippet/lib/highlight/styles/default.css' %}">
     <script>hljs.initHighlightingOnLoad();</script>
@@ -82,7 +83,7 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-8">
-                <div id="content" class="carousel slide">
+                <div id="content" class="summary-list">
                     {% block content %}
                     {% endblock %}</div>
             </div>
