@@ -26,8 +26,11 @@ def index(request):
     return render(request, "index.html", {'data': user_list})
 
 
-def post_list(request, tag_slug=None):
-    object_list = Post.published.all()
+def post_list(request, tag_slug=None, sort_type = None):
+    if sort_type == 'hot':
+        object_list = Post.published.annotate(total_comments=Count('comments')).order_by('-total_comments')
+    else:
+        object_list = Post.published.all()
     tag = None
     if tag_slug:
         tag = get_object_or_404(Tag, slug=tag_slug)
@@ -42,7 +45,7 @@ def post_list(request, tag_slug=None):
     except EmptyPage:
     # If page is out of range deliver last page of results
         posts = paginator.page(paginator.num_pages)
-    return render(request, 'MTH_BLOG/post/list.html', {'page': page, 'posts': posts, 'tag': tag})
+    return render(request, 'MTH_BLOG/post/list.html', {'page': page, 'posts': posts, 'tag': tag,'sort_type': sort_type})
 
 
 def post_detail(request, year, month, day, post):

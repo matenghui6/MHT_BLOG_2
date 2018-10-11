@@ -1,64 +1,90 @@
 {% extends "MTH_BLOG/base.html" %}
 {% load blog_tags %}
+{% load staticfiles %}
 {% block title %}My Blog{% endblock %}
+
 {% block content %}
-    <div id="myCarousel" class="carousel slide" data-ride="carousel">
-        <!-- 轮播（Carousel）指标 -->
-        <ol class="carousel-indicators">
-            <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-            <li data-target="#myCarousel" data-slide-to="1"></li>
-            <li data-target="#myCarousel" data-slide-to="2"></li>
-        </ol>
-        <!-- 轮播（Carousel）项目 -->
-        {% get_most_commented_posts as most_commented_posts %}
-        <div class="carousel-inner">
-
-            {% for post in most_commented_posts %}
-                {% if forloop.counter == 1 %}
-                    <div class="carousel-item active">
-                        <a href="{{ post.get_absolute_url }}" target="_blank">
-                            <img class="w-100" src="/media/{{ post.headImg }}" alt="{{ post.title }} ">
-                        </a>
-                        <div class="carousel-caption">
-                            <h3>{{ post.title }}</h3>
-                        </div>
-                    </div>
-                {% else %}
-                    <div class="carousel-item">
-                        <a href="{{ post.get_absolute_url }}" target="_blank">
-                            <img class="w-100" src="../media/{{ post.headImg }}" alt="{{ post.title }} ">
-                        </a>
-                        <div class="carousel-caption">
-                            <h3>{{ post.title }}</h3>
-                        </div>
-                    </div>
-                {% endif %}
-
-            {% endfor %}
-
-        </div>
-        <!-- 左右切换按钮 -->
-        <a class="carousel-control-prev" href="#myCarousel" data-slide="prev">
-            <span class="carousel-control-prev-icon"></span>
-        </a>
-        <a class="carousel-control-next" href="#myCarousel" data-slide="next">
-            <span class="carousel-control-next-icon"></span>
-        </a>
-    </div>
     {% if tag %}
-        <h2>Posts tagged with "{{ tag.name }}"</h2>
+        <div class="description bg-white px-3 pt-3 pb-1">
+            <p class="float-right mb-0">共<span class="mx-2 text-info">2</span>篇</p>
+            <h1 class="f-17"><strong>文章标签：{{ tag.name }}</strong></h1>
+            <p class="f-16">Virtualenv 是 Python 用来创建虚拟环境的包，虚拟环境是一个相对独立的开发环境，可以用来控制项目依赖库的版本和 Python 的版本，便于项目的管理和移植。</p>
+        </div>
+    {% else %}
+        <div id="myCarousel" class="carousel slide" data-ride="carousel">
+            <!-- 轮播（Carousel）指标 -->
+            <ol class="carousel-indicators">
+                <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                <li data-target="#myCarousel" data-slide-to="1"></li>
+                <li data-target="#myCarousel" data-slide-to="2"></li>
+            </ol>
+            <!-- 轮播（Carousel）项目 -->
+            {% get_most_commented_posts as most_commented_posts %}
+            <div class="carousel-inner">
+
+                {% for post in most_commented_posts %}
+                    {% if forloop.counter == 1 %}
+                        <div class="carousel-item active">
+                            <a href="{{ post.get_absolute_url }}" target="_blank">
+                                <img class="w-100" src="/media/{{ post.headImg }}" alt="{{ post.title }} ">
+                            </a>
+                            <div class="carousel-caption">
+                                <h3>{{ post.title }}</h3>
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="carousel-item">
+                            <a href="{{ post.get_absolute_url }}" target="_blank">
+                                <img class="w-100" src="/media/{{ post.headImg }}" alt="{{ post.title }} ">
+                            </a>
+                            <div class="carousel-caption">
+                                <h3>{{ post.title }}</h3>
+                            </div>
+                        </div>
+                    {% endif %}
+
+                {% endfor %}
+
+            </div>
+            <!-- 左右切换按钮 -->
+            <a class="carousel-control-prev" href="#myCarousel" data-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+            </a>
+            <a class="carousel-control-next" href="#myCarousel" data-slide="next">
+                <span class="carousel-control-next-icon"></span>
+            </a>
+        </div>
     {% endif %}
+    {% ifequal sort_type 'hot' %}
+     <div class="text-secondary font-weight-bold py-2 f-15 choice">
+
+
+                <a class="pb-2 ml-4" href="/post_list/pub/">
+                    <i class="fa fa-bars mr-1"></i>时间排序</a>
+                <a class="pb-2 active " href="/post_list/hot/">
+                    <i class="fa fa-fire mr-1"></i>热度排序</a>
+            </div>
+        {% else %}
+           <div class="text-secondary font-weight-bold py-2 f-15 choice">
+
+
+                <a class="pb-2 active" href="/post_list/pub/">
+                    <i class="fa fa-bars mr-1"></i>时间排序</a>
+                <a class="pb-2 ml-4 " href="/post_list/hot/">
+                    <i class="fa fa-fire mr-1"></i>热度排序</a>
+            </div>
+    {% endifequal  %}
     {% for post in posts %}
         <div class="media mb-1 mb-sm-2 p-2 p-lg-3">
             <div class="align-self-center mr-2 mr-lg-3 w-25 modal-open">
                 <a href="{{ post.get_absolute_url }}" target="_blank">
-                    <img class="w-100 article-img" src="../media/{{ post.headImg }}" alt="{{ post.title }}">
+                    <img class="w-100 article-img" src="/media/{{ post.headImg }}" alt="{{ post.title }}">
                 </a>
             </div>
 
             <div class="media-body">
                 <div class="text-muted mb-2 f-12">
-                    <p class="date">发布日期：  {{ post.publish | date:'Y-n-d H:i ' }}  &ensp;  &ensp;   作者： {{ post.author }}
+                    <p class="date">发布日期： {{ post.publish | date:'Y-n-d H:i ' }} &ensp; &ensp; 作者： {{ post.author }}
                     </p>
                     <h2 class="mt-0 font-weight-bold text-info f-17">
                         <a href="{{ post.get_absolute_url }}">

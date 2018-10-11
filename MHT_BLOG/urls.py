@@ -22,9 +22,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('index/', views.index),
     # path('post_list/', views.post_list),
-    path('post_list/', views.post_list, name='post_list'),
+    path('post_list/<slug:sort_type>/', views.post_list, name='post_list'),
     path('post_detail/<int:year>/<int:month>/<int:day>/<slug:post>/', views.post_detail, name='post_detail'),
     path('tag/<slug:tag_slug>/', views.post_list, name='post_list_by_tag'),
-    path('tag/<slug:tag_slug>/', views.post_list, name='post_list_by_tag'),
     path('ckeditor/', include('ckeditor_uploader.urls'))
-]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

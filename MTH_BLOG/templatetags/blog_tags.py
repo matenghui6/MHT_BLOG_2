@@ -2,6 +2,7 @@ from django import template
 from ..models import Post
 from django.db.models import Count
 from django.utils.safestring import mark_safe
+from taggit.managers import TaggableManager
 import markdown
 
 register = template.Library()
@@ -23,14 +24,11 @@ def get_most_commented_posts(count=5):
     return Post.published.annotate(total_comments=Count('comments')).order_by('-total_comments')[:count]
 
 
-@register.simple_tag
-def get_top_commented_posts(count=1):
-    return Post.published.annotate(total_comments=Count('comments')).order_by('-total_comments')[:count]
+@register.inclusion_tag('MTH_BLOG/post/tag.html')
+def get_all_tags():
+    all_tags = Post.tags.all()
+    return {'all_tags': all_tags}
 
-
-@register.simple_tag
-def get_second_commented_posts(count=2):
-    return Post.published.annotate(total_comments=Count('comments')).order_by('-total_comments')[:count]
 
 
 @register.filter(name='markdown')
