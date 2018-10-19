@@ -24,10 +24,18 @@ def get_most_commented_posts(count=5):
     return Post.published.annotate(total_comments=Count('comments')).order_by('-total_comments')[:count]
 
 
+@register.inclusion_tag('MTH_BLOG/post/most_comments.html')
+def get_most_commented_posts_two(count=5):
+    most_comments = Post.published.annotate(total_comments=Count('comments')).order_by('-total_comments')[:count]
+    return {'most_comments': most_comments}
+
+
+
 @register.inclusion_tag('MTH_BLOG/post/tag.html')
 def get_all_tags():
     all_tags = Post.tags.all()
     return {'all_tags': all_tags}
+
 
 
 

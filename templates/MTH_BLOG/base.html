@@ -6,10 +6,14 @@
     <title>{% block title %}{% endblock %}</title>
 
     <link href="{% static "css/base.css" %}" rel="stylesheet">
-    <link rel="stylesheet" href="{% static "css/bootstrap.css" %}">
+
+    <link rel="stylesheet" href="{% static "css/bootstrap.min.css" %}">
     <script src="{% static "js/jquery-3.3.1.min.js" %}"></script>
-    <script src="{% static "js/bootstrap.js" %}"></script>
+
     <script src="{% static "js/bootstrap.min.js" %}"></script>
+
+    <link rel="stylesheet" href="{% static "css/font-awesome.min.css" %}">
+    <link rel="stylesheet" href="{% static "css/detail.css" %}">
     <script src="{% static 'ckeditor/ckeditor/plugins/codesnippet/lib/highlight/highlight.pack.js' %}"></script>
     <link rel="stylesheet" href="{% static 'ckeditor/ckeditor/plugins/codesnippet/lib/highlight/styles/default.css' %}">
     <script>hljs.initHighlightingOnLoad();</script>
@@ -18,7 +22,7 @@
 <body>
 
 <nav class="navbar navbar-expand-md bg-white fixed-top blog-navbar py-md-0">
-    <a class="navbar-brand d-md-none d-lg-block" href="/">
+    <a class="navbar-brand d-md-none d-lg-block" href="/post_list/pub/">
         <img src="{% static "img/logo.png" %}" alt="MthLearngin">
     </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -29,25 +33,26 @@
         <ul class="navbar-nav ml-auto">
             <li class="nav-item mr-2">
 
-                <a class="nav-link py-md-3 active" href="/"><i class="fa fa-home mr-1"></i>首页<span class="sr-only">(current)</span></a>
+                <a class="nav-link py-md-3 active" href="/post_list/pub/"><i class="fa fa-home mr-1"></i>首页<span
+                        class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item mr-2">
 
-                <a class="nav-link py-md-3 " href="/archive/"><i class="fa fa-sitemap mr-1"></i>归档</a>
+                <a class="nav-link py-md-3 " href=""><i class="fa fa-sitemap mr-1"></i>归档</a>
             </li>
 
             <li class="nav-item mr-2">
 
-                <a class="nav-link py-md-3 " href="/tool/"><i class="fa fa-balance-scale mr-1"></i>在线工具</a>
+                <a class="nav-link py-md-3 " href=""><i class="fa fa-balance-scale mr-1"></i>在线工具</a>
             </li>
 
 
             <li class="nav-item mr-2 ">
 
-                <a class="nav-link py-md-3 " href="/about/"><i class="fa fa-anchor mr-1"></i>关于</a>
+                <a class="nav-link py-md-3 " href=""><i class="fa fa-anchor mr-1"></i>关于</a>
             </li>
             <form class="nav-item navbar-form mr-2 py-md-2" role="search" method="get" id="searchform"
-                  action="/search/">
+                  action="">
                 <div class="input-group">
                     <input type="search" name="q" class="form-control rounded-0 f-15" placeholder="搜索" required=True>
                     <div class="input-group-btn">
@@ -59,10 +64,10 @@
         <ul class="navbar-nav">
 
             <li class="nav-item mr-2">
-                <a class="nav-link py-md-3" href="/accounts/login/?next=/">登录</a>
+                <a class="nav-link py-md-3" href="">登录</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link py-md-3" href="/accounts/signup/?next=/">注册</a>
+                <a class="nav-link py-md-3" href="">注册</a>
             </li>
 
         </ul>
@@ -88,25 +93,15 @@
                     {% endblock %}</div>
             </div>
             <div class="col-lg-4">
-                <div id="sidebar">
-                    <h2>我的博客</h2>
-                    <p>迄今为止一共编写了 {% total_posts %} 篇文章.</p>
-                    <h3>Latest posts</h3>
-                    {% show_latest_posts 3 %}
-                    {% get_all_tags %}
-                    <h3>Most commented posts</h3>
+                {% include 'MTH_BLOG/post/blog_num.html' %}
+                {% include 'MTH_BLOG/post/latest_posts.html' %}
+                {% get_all_tags %}
+                {% get_most_commented_posts_two %}
 
-                    {% get_most_commented_posts as most_commented_posts %}
-                    <ul>
-                        {% for post in most_commented_posts %}
-                            <li>
-                                <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
-                            </li>
-                        {% endfor %}
-                    </ul>
-                </div>
             </div>
         </div>
+    </div>
+    </div>
     </div>
 </main>
 </body>
